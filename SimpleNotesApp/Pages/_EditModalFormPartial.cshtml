@@ -1,0 +1,64 @@
+﻿@model IndexModel
+
+@*@Model.Note.Id
+    @Model.Note.Title
+    @Model.Note.Text
+    @Model.Note.Tags
+    @Model.Note.CreateData
+    @Model.Note.BackgroundColor
+    @Model.Note.LinkToPic*@
+
+
+@*nie trzeba dodawac value="...". To samo się dodaje.*@
+
+
+
+<form method="post">
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Note.Id" />
+        <div class="form-group">
+            <label asp-for="Note.Title" class="control-label"></label>
+            <input asp-for="Note.Title" class="form-control" />
+            <span asp-validation-for="Note.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Note.Text" class="control-label"></label>
+            <textarea asp-for="Note.Text" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Note.Text" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Note.LinkToPic" class="control-label"></label>
+            <input asp-for="Note.LinkToPic" class="form-control" placeholder="e.g. www.myphotos.com/2SoFg4X.jpg" />
+            <span asp-validation-for="Note.LinkToPic" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Note.Tags" class="control-label"></label>
+            <input asp-for="Note.Tags" class="form-control" placeholder="separate, tags, by, commas" />
+            <span asp-validation-for="Note.Tags" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Note.BackgroundColor" class="control-label"></label>
+            <br />
+
+            <div class="text-center">
+                @{
+                    var baseColors = Enum.GetValues(typeof(Models.BaseColors)).Cast<Models.BaseColors>();
+
+                    foreach (var color in baseColors)
+                    {
+                        <label class="btn btn-@color">
+                            @Html.RadioButton("Note.BackgroundColor", color)
+                        </label>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-warning" asp-page-handler="Update">Apply changes</button>
+    </div>
+</form>
