@@ -1,0 +1,66 @@
+﻿@model SimpleNotesApp.Models.Note
+
+@{
+    var bg_color = $"bg-{Model.BackgroundColor}";
+    var text_color = (((int)Model.BackgroundColor == 1) ||
+                      ((int)Model.BackgroundColor == 2) ||
+                      ((int)Model.BackgroundColor == 6) ||
+                      ((int)Model.BackgroundColor == 8)) ? "text-white" : "";
+    var card_img_style = ((Model.Title != null) ||
+                           (Model.Text != null) ||
+                           (Model.Tags != null)) ? "card-img-top" : "card-img";
+
+}
+
+
+<div class="card @bg_color @text_color show-more">
+
+
+    @if (Model.LinkToPic != null)
+    {
+        <img class="@card_img_style" src="@Model.LinkToPic" alt="Card image cap">
+    }
+
+    @if ((Model.Title != null) || (Model.Text != null) || (Model.Tags != null))
+    {
+        <div class="card-body">
+
+            @if (Model.Title != null)
+            {
+                <h5 class="card-title">@Model.Title</h5>
+            }
+
+            @if (Model.Text != null)
+            {
+                <p class="card-text">@Model.Text</p>
+            }
+
+            @if (Model.Tags != null)
+            {
+                var tags = Model.Tags.Split(',');
+                foreach (var tag in tags)
+                {
+                    <a href="/Notes"><span class="badge badge-primary">#@tag</span></a>
+                }
+            }
+        </div>
+    }
+
+    @*<div class="card-footer">
+        <small class="text-muted">@Model.ModifiedDate</small>
+    </div>*@
+
+
+    <button type="submit" class="close edit-btn" onclick="getDataForEditModal(@Model.Id)" data-toggle="modal" data-target="#editModal">
+        <span>
+            &#x270f;
+        </span>
+    </button>
+    <button type="button" class="close close-btn" onclick="setIdForDeleteModal(@Model.Id)" data-toggle="modal" data-target="#deleteModal">
+        <span>
+            &#x1f5d1;
+        </span>
+    </button>
+</div>
+
+

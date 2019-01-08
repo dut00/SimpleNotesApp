@@ -1,0 +1,160 @@
+﻿@page "{handler?}"
+@using System.Linq
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!-- Add Button trigger modal -->
+<div class="row m-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+        + Add note
+    </button>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add note</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Note.Title" class="control-label"></label>
+                        <input asp-for="Note.Title" class="form-control" />
+                        <span asp-validation-for="Note.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note.Text" class="control-label"></label>
+                        <textarea asp-for="Note.Text" class="form-control" rows="5"></textarea>
+                        <span asp-validation-for="Note.Text" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note.LinkToPic" class="control-label"></label>
+                        <input asp-for="Note.LinkToPic" class="form-control" placeholder="e.g. www.myphotos.com/2SoFg4X.jpg" />
+                        <span asp-validation-for="Note.LinkToPic" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note.Tags" class="control-label"></label>
+                        <input asp-for="Note.Tags" class="form-control" placeholder="funny, black, cat" />
+                        <span asp-validation-for="Note.Tags" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note.BackgroundColor" class="control-label"></label>
+                        <br />
+
+                        <div class="text-center">
+
+                            @{
+                                var baseColors = Enum.GetValues(typeof(Models.BaseColors)).Cast<Models.BaseColors>();
+
+
+                                foreach (var color in baseColors)
+                                {
+                                    // Pierwszy element radio zostaje domyślnie zaznaczony
+                                    if (baseColors.First() == color)
+                                    {
+                                        <label class="btn btn-@color">
+                                            @Html.RadioButton("Note.BackgroundColor", color, true)
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="btn btn-@color">
+                                            @Html.RadioButton("Note.BackgroundColor", color)
+                                        </label>
+                                    }
+                                }
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" asp-page-handler="Add">Create</button>
+                    @*<input type="submit" class="btn btn-primary" asp-page-handler="Add" value="Create" />*@
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal Container-->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit note</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div id="editModalForm">
+                <!-- partial _EditModalFormPartial-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete this note?</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                This operation cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <form method="post">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="hidden" asp-for="NoteId" id="inputNoteId" value="" />
+                    <button type="submit" class="btn btn-danger" asp-page-handler="Delete">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Generuje wszystkie karty notatek na stronie -->
+<div class="card-columns">
+    @foreach (var note in Model.Notes.Reverse())
+    {
+
+        @await Html.PartialAsync("_NoteCard", note)
+
+    }
+</div>
+
+
+<script>
+            function setIdForDeleteModal(noteId) {
+                document.getElementById("inputNoteId").value = noteId;
+            }
+
+            function getDataForEditModal(noteId) {
+                $('#editModalForm').load('/EditModalFormPartial?id=' + noteId);
+            }
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
