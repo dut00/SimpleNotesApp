@@ -16,12 +16,14 @@ namespace SimpleNotesApp.Services
             _context = context;
         }
 
+
         public Note Add(Note note)
         {
             _context.Notes.Add(note);
             _context.SaveChangesAsync();
             return note;
         }
+
 
         public void Delete(int id)
         {
@@ -38,15 +40,18 @@ namespace SimpleNotesApp.Services
             _context.SaveChanges();
         }
 
+
         public Note Get(int id)
         {
             return _context.Notes.FirstOrDefault(r => r.Id == id);
         }
 
+
         public IEnumerable<Note> GetAll()
         {
             return _context.Notes.OrderBy(r => r.Id);
         }
+
 
         public Note Update(Note note)
         {
