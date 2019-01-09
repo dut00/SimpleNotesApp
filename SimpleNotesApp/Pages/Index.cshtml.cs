@@ -15,12 +15,12 @@ namespace SimpleNotesApp.Pages
     public class IndexModel : PageModel
     {
         private INoteData _noteData;
-        private SimpleNotesAppDbContext _context;
+        //private SimpleNotesAppDbContext _context;
 
-        public IndexModel(INoteData noteData, SimpleNotesAppDbContext context)
+        public IndexModel(INoteData noteData)//, SimpleNotesAppDbContext context)
         {
             _noteData = noteData;
-            _context = context;
+            //_context = context;
         }
 
         public IEnumerable<Note> Notes { get; set; }
@@ -38,7 +38,8 @@ namespace SimpleNotesApp.Pages
         // To żądanie uzupełnia formularz w modalu Edit (ajax)
         public IActionResult OnGetEditModalFormPartial(int id)
         {
-            Note = _context.Notes.Find(id);
+            //Note = _context.Notes.Find(id);
+            Note = _noteData.Get(id);
             return new PartialViewResult() { ViewName = "_EditModalFormPartial", ViewData = this.ViewData };
         }
 
