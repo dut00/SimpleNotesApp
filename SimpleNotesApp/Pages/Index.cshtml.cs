@@ -56,8 +56,6 @@ namespace SimpleNotesApp.Pages
                 Note.LinkToPic == null &&
                 Note.Tags == null)
             {
-                //Notes = _noteData.GetAll();
-                //return Page();
                 return RedirectToPage("Index");
             }
 
@@ -74,11 +72,9 @@ namespace SimpleNotesApp.Pages
                 Note.Tags = Regex.Replace(Note.Tags, ",{2,}", ",");
             }
 
-            _context.Notes.Add(Note);
-            await _context.SaveChangesAsync();
+            _noteData.Add(Note);
 
             return RedirectToPage("Index");
-
         }
 
         // Update note
@@ -86,7 +82,7 @@ namespace SimpleNotesApp.Pages
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("./");  // ("Notes");
+                return RedirectToAction("Error");  // ("Notes");
             }
 
             if (Note.Title == null &&
@@ -94,14 +90,10 @@ namespace SimpleNotesApp.Pages
                 Note.LinkToPic == null &&
                 Note.Tags == null)
             {
-                //Notes = _noteData.GetAll();
-                //return Page();
                 return RedirectToPage("Index");
             }
 
-            //Set note new create date?!
-            //chyba powineniem przyjać inną nazwę np. ModificationDate??
-            Note.CreatedDate = DateTime.Now;
+            Note.ModifiedDate = DateTime.Now;
 
             if (Note.Tags != null)
             {
@@ -113,35 +105,11 @@ namespace SimpleNotesApp.Pages
                 Note.Tags = Regex.Replace(Note.Tags, ",{2,}", ",");
             }
 
-
-            _context.Attach(Note).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NoteExists(Note.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _noteData.Update(Note);
             
             return RedirectToPage("Index");
-
         }
-
-        private bool NoteExists(int id)
-        {
-            return _context.Notes.Any(e => e.Id == id);
-        }
-
-
+     
 
         // Delete note
         [BindProperty]
@@ -149,21 +117,12 @@ namespace SimpleNotesApp.Pages
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            //string stringId = Request.Form["noteId"];
-
-
             if (NoteId == null)
             {
                 return NotFound();
             }
 
-            Note = await _context.Notes.FindAsync(NoteId);
-
-            if (Note != null)
-            {
-                _context.Notes.Remove(Note);
-                await _context.SaveChangesAsync();
-            }
+            _noteData.Delete(NoteId.GetValueOrDefault());
 
             return RedirectToPage("Index");
         }
