@@ -20,21 +20,14 @@ namespace SimpleNotesApp.Services
         public Note Add(Note note)
         {
             _context.Notes.Add(note);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
+            //await _context.SaveChangesAsync();
             return note;
         }
 
 
         public void Delete(int id)
         {
-            //Note Note = await _context.Notes.FindAsync(id);
-
-            //if (Note != null)
-            //{
-            //    _context.Notes.Remove(Note);
-            //    await _context.SaveChangesAsync();
-            //}
-
             Note note = _context.Notes.FirstOrDefault(r => r.Id == id);
             _context.Notes.Remove(note);
             _context.SaveChanges();
