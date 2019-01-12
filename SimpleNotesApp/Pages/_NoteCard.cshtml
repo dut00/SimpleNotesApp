@@ -4,6 +4,7 @@
     var bg_color = $"bg-{Model.BackgroundColor}";
     var text_color = (((int)Model.BackgroundColor == 1) ||
                       ((int)Model.BackgroundColor == 2) ||
+                      ((int)Model.BackgroundColor == 4) ||
                       ((int)Model.BackgroundColor == 6) ||
                       ((int)Model.BackgroundColor == 8)) ? "text-white" : "";
     var card_img_style = ((Model.Title != null) ||
