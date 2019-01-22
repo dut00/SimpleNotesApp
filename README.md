@@ -10,8 +10,8 @@ Screenshot:
 
 
 TODO:
--add authorization,
--individual notes for each account,
--search engine,
--pinned notes,
--archive
+- add authorization,
+- individual notes for each account,
+- search engine,
+- pinned notes,
+- archive
