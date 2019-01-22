@@ -1,8 +1,8 @@
 # SimpleNotesApp_AspNet
 
-Aplikacja do przechowywania notatek. 
+App for kepping notes.
 
-## Demo:
+### Demo:
 https://simplenotesapp.azurewebsites.net/
 
 ### Screenshot:
