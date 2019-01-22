@@ -2,16 +2,16 @@
 
 Aplikacja do przechowywania notatek. 
 
-Demo:
+## Demo:
 https://simplenotesapp.azurewebsites.net/
 
-Screenshot:
+### Screenshot:
 ![alt text](https://raw.githubusercontent.com/dut00/SimpleNotesApp/master/SimpleNotesApp_site.png)
 
 
 ### TODO:
-- add authorization,
-- individual notes for each account,
+- add authorization, !!
+- individual notes for each account, !!
 - search engine,
 - pinned notes,
 - archive
