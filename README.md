@@ -12,6 +12,7 @@ https://simplenotesapp.azurewebsites.net/
 ### TODO:
 - add authorization, !!
 - individual notes for each account, !!
+- ajax,
 - search engine,
 - pinned notes,
 - archive
