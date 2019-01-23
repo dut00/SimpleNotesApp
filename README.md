@@ -1,4 +1,4 @@
-# SimpleNotesApp_AspNet
+# SimpleNotesApp
 
 App for kepping notes.
 
